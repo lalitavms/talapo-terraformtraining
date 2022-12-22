@@ -5,6 +5,7 @@ module "virtual_network" {
   location            = each.value.location
   resource_group_name = azurerm_resource_group.testrg.name
   address_space       = each.value.address_space
+  subnets             = each.value.subnets
 }
 
 output "virtual_network_out" {
