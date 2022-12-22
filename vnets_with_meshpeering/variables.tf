@@ -9,7 +9,7 @@ variable "location" {
 }
 
 variable "virtual_networks" {
-  #  type = map(any)
+  type = map(any)
   default = {
     virtual_network_aus = {
       vnetname      = "vnet-aus"
