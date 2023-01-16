@@ -22,3 +22,12 @@ resource "azurerm_subnet" "subnet" {
 output "id" {
   value = azurerm_virtual_network.virtual_network.id
 }
+
+# output "subnet" {
+#   for_each = var.subnet
+#   value = azurerm_subnet.subnet[each.key].name
+# }
+
+output "subnet" {
+  value = azurerm_subnet.subnet
+}

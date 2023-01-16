@@ -3,6 +3,6 @@ module "virtual_network_peering" {
   for_each             = local.virtual_networks
   virtual_network_name = each.value.vnetname
   peerings             = each.value.peerings
-  resource_group_name  = azurerm_resource_group.testrg.name
+  resource_group_name  = azurerm_resource_group.mainrg.name
   virtual_networks     = module.virtual_network
 }
