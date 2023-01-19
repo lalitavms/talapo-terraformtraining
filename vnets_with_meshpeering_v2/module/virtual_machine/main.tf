@@ -1,8 +1,8 @@
-data "azurerm_subnet" "vmsubnet" {
-  name                 = var.virtual_machine.network.subnet_name
-  virtual_network_name = var.virtual_machine.network.virtual_network_name
-  resource_group_name  = var.virtual_machine.network.resource_group_name
-}
+# data "azurerm_subnet" "vmsubnet" {
+#   name                 = var.virtual_machine.network.subnet_name
+#   virtual_network_name = var.virtual_machine.network.virtual_network_name
+#   resource_group_name  = var.virtual_machine.network.resource_group_name
+# }
 
 # output ""vmsubnet" {
 #   value = data.azurerm_subnet.vmsubnet
@@ -14,9 +14,9 @@ resource "azurerm_network_interface" "windowsvm" {
   resource_group_name = var.virtual_machine.resource_group_name
 
   ip_configuration {
-    name      = "ipconfig1"
-    subnet_id = data.azurerm_subnet.vmsubnet.id
-    #subnet_id = var.virtual_networks["${var.virtual_machine.network.virtual_network}"].subnet["${var.virtual_machine.network.subnet_name}"].id
+    name = "ipconfig1"
+    #    subnet_id = data.azurerm_subnet.vmsubnet.id
+    subnet_id                     = var.virtual_networks[var.virtual_machine.network.virtual_network_key].subnet[var.virtual_machine.network.subnet_key].id
     private_ip_address_allocation = "Dynamic"
   }
 }
@@ -35,10 +35,9 @@ resource "azurerm_virtual_machine" "windowsvm" {
   }
   storage_os_disk {
     name              = "${var.virtual_machine.name}-osdisk"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
-    #managed_disk_type = try(var.virtual_machine.storage_os_disk.managed_disk_type, "Standard_LRS")
+    caching           = try(var.virtual_machine.storage_os_disk.caching, "ReadWrite")
+    create_option     = try(var.virtual_machine.storage_os_disk.create_option, "FromImage")
+    managed_disk_type = try(var.virtual_machine.storage_os_disk.managed_disk_type, "Standard_LRS")
   }
   os_profile {
     computer_name  = var.virtual_machine.name

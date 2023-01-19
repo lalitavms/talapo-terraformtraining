@@ -24,9 +24,9 @@ locals {
     vm_size             = "Standard_DS1_v2"
     network = {
       resource_group_name = azurerm_resource_group.mainrg.name
-      #virtual_network    = "virtual_network_aus"
-      virtual_network_name = "vnet-aus"
-      subnet_name          = "subnet01"
+      virtual_network_key = "virtual_network_aus"
+      #      virtual_network_name = "vnet-aus"
+      subnet_key = "subnet01"
     }
     storage_image_reference = {
       publisher = "MicrosoftWindowsServer"
@@ -35,14 +35,13 @@ locals {
       version   = "latest"
     }
     storage_os_disk = {
-      # name              = "${data.azurecaf_name.windowsvm.result}-osdisk"
-      # caching           = "ReadWrite"
-      # create_option     = "FromImage"
-      managed_disk_type = "Standard_LRS"
+      caching           = "ReadOnly"
+      create_option     = "FromImage"
+      managed_disk_type = "Premium_LRS"
     }
     localadmin = {
-      username = "talapo"
-      password = "talapo1234!"
+      username = "azureadmin"
+      password = var.vm_localadmin_password
     }
   }
 }
