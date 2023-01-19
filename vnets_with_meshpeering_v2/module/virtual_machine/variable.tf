@@ -1,2 +1,2 @@
 variable "virtual_machine" {}
-#variable "virtual_networks" {}
+variable "virtual_networks" {}

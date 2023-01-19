@@ -9,10 +9,10 @@ resource "azurerm_subnet" "subnet" {
   for_each             = var.subnets
   name                 = each.value.subnetname
   resource_group_name  = var.resource_group_name
-  virtual_network_name = var.name
+  virtual_network_name = azurerm_virtual_network.virtual_network.name
   address_prefixes     = each.value.address_space
 
-  depends_on = [azurerm_virtual_network.virtual_network]
+  #  depends_on = [azurerm_virtual_network.virtual_network]
 }
 
 # output "name" {
@@ -22,11 +22,6 @@ resource "azurerm_subnet" "subnet" {
 output "id" {
   value = azurerm_virtual_network.virtual_network.id
 }
-
-# output "subnet" {
-#   for_each = var.subnet
-#   value = azurerm_subnet.subnet[each.key].name
-# }
 
 output "subnet" {
   value = azurerm_subnet.subnet
